@@ -1,0 +1,51 @@
+import AuthService from "./auth.service";
+import ProductService from "./product.service";
+import CustomerService from "./account.service";
+import CartService from "./cart.service";
+import CollectionService from "./collection.service";
+import OrderService from "./order.service";
+import PayMentService from "./payment.service";
+import LocationService from "./location.service";
+import SdkClientApi from "../common/sdk.client";
+import ServiceSubject from "../models/observer/service_subject";
+import ServiceObserver from "../models/observer/service_observer";
+import SupplierService from "./supplier.service";
+export interface ServiceProps {
+    baseUrl: string;
+    storeChannel: string;
+    partnerId: string;
+    sessionId: string;
+}
+declare class SdkClientService implements ServiceSubject {
+    private _baseUrl;
+    private _partnerId;
+    private _storeChannel;
+    private _sessionId?;
+    private _sdk;
+    private serviceObservers;
+    authService: AuthService;
+    productService: ProductService;
+    customerService: CustomerService;
+    cartService: CartService;
+    collectionService: CollectionService;
+    orderService: OrderService;
+    paymentService: PayMentService;
+    locationService: LocationService;
+    supplierService: SupplierService;
+    constructor(_baseUrl: string, _partnerId: string, _storeChannel: string, _sessionId?: string | undefined);
+    get sdk(): SdkClientApi;
+    set(sdk: SdkClientApi): void;
+    set baseUrl(baseUrl: string);
+    get baseUrl(): string;
+    set partnerId(partnetId: string);
+    get partnerId(): string;
+    set storeChannel(storeChannel: string);
+    get storeChannel(): string;
+    set sessionId(sessionId: string);
+    get sessionId(): string;
+    get observes(): ServiceObserver[];
+    attach(observer: ServiceObserver): void;
+    detach(observer: ServiceObserver): void;
+    notify(): void;
+}
+export default SdkClientService;
